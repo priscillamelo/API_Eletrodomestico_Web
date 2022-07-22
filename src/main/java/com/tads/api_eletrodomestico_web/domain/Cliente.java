@@ -1,5 +1,6 @@
 package com.tads.api_eletrodomestico_web.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

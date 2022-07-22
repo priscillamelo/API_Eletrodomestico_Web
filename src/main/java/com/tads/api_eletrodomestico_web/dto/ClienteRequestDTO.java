@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClienteDTO {
+public class ClienteRequestDTO {
     String nome;
+    String username;
     Endereco endereco;
 }

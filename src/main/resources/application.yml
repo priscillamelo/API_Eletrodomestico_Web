@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/API_Eletrodomestico
     username: root
-    password: admin@123
+    password: root123
   jpa:
     properties:
       hibernate:
