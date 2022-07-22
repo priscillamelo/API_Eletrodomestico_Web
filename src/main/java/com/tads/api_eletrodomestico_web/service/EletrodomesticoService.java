@@ -20,12 +20,11 @@ public class EletrodomesticoService {
         return eletrodomesticoRepository.listProdutosNotDeleted();
     }
 
-    public void createProduto(Eletrodomestico eletrodomestico){
-        eletrodomesticoRepository.save(eletrodomestico);
+    public Eletrodomestico create(Eletrodomestico eletrodomestico){
+        return eletrodomesticoRepository.save(eletrodomestico);
     }
-    public Eletrodomestico findById(Long id){
-        Optional<Eletrodomestico> eletrodomesticoOptional = eletrodomesticoRepository.findById(id);
-        return eletrodomesticoOptional.orElse(null);
+    public Optional<Eletrodomestico> findById(Long id){
+        return eletrodomesticoRepository.findById(id);
     }
 
     public void updateProduto(Eletrodomestico eletrodomestico){
@@ -35,9 +34,7 @@ public class EletrodomesticoService {
         Eletrodomestico produto = eletrodomesticoRepository.findById(id).get();
         Date date = new Date();
 
-        if(produto != null){
-            produto.setDeleted(date);
-            updateProduto(produto);
-        }
+        produto.setDeleted(date);
+        updateProduto(produto);
     }
 }

@@ -9,20 +9,15 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Endereco {
+@AllArgsConstructor
+public class Pedido {
     @Id
     private Long id;
-    @OneToOne
+    private float totalCompras;
+    @ManyToOne
     @MapsId
     @JoinColumn(name = "id_cliente")
     @JsonIgnore
     private Cliente cliente;
-    private String rua;
-    private String cidade;
-    private String bairro;
-    private String cep;
-    private int numCasa;
-
 }

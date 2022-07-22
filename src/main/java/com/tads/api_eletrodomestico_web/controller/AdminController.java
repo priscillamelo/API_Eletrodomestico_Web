@@ -1,59 +1,67 @@
 package com.tads.api_eletrodomestico_web.controller;
 
+import com.tads.api_eletrodomestico_web.domain.Cliente;
 import com.tads.api_eletrodomestico_web.domain.Eletrodomestico;
+import com.tads.api_eletrodomestico_web.service.ClienteService;
 import com.tads.api_eletrodomestico_web.service.EletrodomesticoService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/admin")
 public class AdminController {
-        private final EletrodomesticoService service;
+        private final EletrodomesticoService eletrodomesticoService;
 
         public AdminController(EletrodomesticoService eletrodomesticoService) {
-            this.service = eletrodomesticoService;
+            this.eletrodomesticoService = eletrodomesticoService;
         }
 
-        @GetMapping("/admin")
-        public String doPageAdminIndex(Model model) {
-            List<Eletrodomestico> produtos = service.listProdutosNotDeleted();
-            model.addAttribute("produtoEletro", produtos);
-            return "indexAdmin";
+        @GetMapping
+        public ResponseEntity<List> listProdutos() {
+            List<Eletrodomestico> lista = eletrodomesticoService.listProdutosNotDeleted();
+            return ResponseEntity.ok(lista);
         }
 
-        @GetMapping("/cadastrar")
-        public String getEletrodomesticoCadastro(Model model) {
-            Eletrodomestico eletrodomestico = new Eletrodomestico();
-            model.addAttribute("eletrodomestico", eletrodomestico);
-            return "cadastro";
+        @PostMapping
+        public ResponseEntity<Eletrodomestico> createProduto(@RequestBody Eletrodomestico eletrodomestico, Errors errors) throws URISyntaxException {
+            Eletrodomestico produto = eletrodomesticoService.create(eletrodomestico);
+            URI uri = new URI("/admin/" + produto.getId());
+            return ResponseEntity.created(uri).body(produto);
         }
 
-        @PostMapping("salvar")
-        public String doSalvarEletrodomestico(@ModelAttribute @Valid Eletrodomestico eletrodomestico, Errors errors) {
-            if (errors.hasErrors()) {
-                return "cadastro";
+        @PatchMapping(path = "/{id}")
+        public ResponseEntity<Eletrodomestico> updateProduto(@PathVariable Long id, @RequestBody Eletrodomestico eletrodomestico) {
+            return eletrodomesticoService
+                    .findById(id)
+                    .map( record -> {
+                                eletrodomesticoService.updateProduto(eletrodomestico);
+                                return ResponseEntity.ok(eletrodomestico);
+                            }).orElse(
+                                ResponseEntity.notFound().build());
+
+            /*if(eletrodomesticoService.findById(id) != null){
+                Eletrodomestico produto = eletrodomesticoService.updateProduto(eletrodomestico);
+                return ResponseEntity.ok(produto);
             } else {
-                service.createProduto(eletrodomestico);
-                return "redirect:/admin";
-            }
+                return ResponseEntity.notFound().build();
+            }*/
         }
-
-        @GetMapping("editar/{id}")
-        public String doEditar(Model model, @PathVariable Long id) {
-            Eletrodomestico eletrodomestico = service.findById(id);
-            model.addAttribute("eletrodomestico", eletrodomestico);
-            service.updateProduto(eletrodomestico);
-
-            return "cadastro";
-        }
-
-        @GetMapping("deletar/{id}")
-        public String doDeletar(@PathVariable Long id) {
-            service.deleteProduto(id);
-
-            return "redirect:/admin";
+        @DeleteMapping(path = "/{id}")
+        public ResponseEntity<?> doDeletar(@PathVariable Long id) {
+            return eletrodomesticoService
+                    .findById(id)
+                    .map( record -> {
+                        eletrodomesticoService.deleteProduto(id);
+                        return ResponseEntity.ok().build();
+                    }).orElse(
+                            ResponseEntity.notFound().build());
         }
 }

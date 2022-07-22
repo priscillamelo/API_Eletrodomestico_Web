@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApiEletrodemesticoWebApplication {
+public class ApiEletrodomesticoWebApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ApiEletrodemesticoWebApplication.class, args);
+        SpringApplication.run(ApiEletrodomesticoWebApplication.class, args);
     }
 
 }
