@@ -25,13 +25,12 @@ public class AdminController {
         }
 
         @GetMapping
-        public ResponseEntity<List> listProdutos() {
-            List<Eletrodomestico> lista = eletrodomesticoService.listProdutosNotDeleted();
-            return ResponseEntity.ok(lista);
+        public List<Eletrodomestico> listProdutos() {
+            return eletrodomesticoService.listProdutosNotDeleted();
         }
 
         @PostMapping
-        public ResponseEntity<Eletrodomestico> createProduto(@RequestBody Eletrodomestico eletrodomestico, Errors errors) throws URISyntaxException {
+        public ResponseEntity<Eletrodomestico> createProduto(@RequestBody Eletrodomestico eletrodomestico) throws URISyntaxException {
             Eletrodomestico produto = eletrodomesticoService.create(eletrodomestico);
             URI uri = new URI("/admin/" + produto.getId());
             return ResponseEntity.created(uri).body(produto);

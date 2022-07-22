@@ -10,21 +10,19 @@ import java.util.Optional;
 @Service
 public class ClienteService {
     ClienteRepository repository;
-
     public ClienteService(ClienteRepository clienteRepository) {
         this.repository = clienteRepository;
     }
 
-    public List<Cliente> listClients() {
+    public List<Cliente> list(){
         return repository.findAll();
     }
-
-    public void addClient(Cliente cliente) {
+    public Cliente addClient(Cliente cliente) {
         repository.save(cliente);
+        return cliente;
     }
-    public Cliente findById(Long id){
-        Optional<Cliente> clienteOptional = repository.findById(id);
-        return clienteOptional.orElse(null);
+    public Optional<Cliente> findById(Long id){
+        return repository.findById(id);
     }
 
     public void updateClient(Cliente cliente){

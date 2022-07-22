@@ -27,10 +27,11 @@ public class Cliente {
     //@Email(message = ErrorsMessages.ErroEmail)
     private String email;
 
-    @OneToOne(mappedBy = "cliente", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Pedido> pedido;
 
 }

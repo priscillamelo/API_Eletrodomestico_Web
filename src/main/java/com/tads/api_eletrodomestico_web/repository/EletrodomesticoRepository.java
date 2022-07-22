@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface EletrodomesticoRepository extends JpaRepository<Eletrodomestico, Long> {
     @Query(value = "SELECT * FROM eletrodomestico WHERE deleted is null", nativeQuery = true)
     List<Eletrodomestico> listProdutosNotDeleted();

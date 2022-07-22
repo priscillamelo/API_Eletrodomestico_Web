@@ -15,9 +15,7 @@ public class Pedido {
     @Id
     private Long id;
     private float totalCompras;
-    @ManyToOne
-    @MapsId
-    @JoinColumn(name = "id_cliente")
-    @JsonIgnore
-    private Cliente cliente;
+    //@ManyToOne
+    //@JoinColumn(name = "id_cliente")
+    //private Cliente cliente;
 }

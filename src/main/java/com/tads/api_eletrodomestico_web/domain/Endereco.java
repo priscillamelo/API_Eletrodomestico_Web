@@ -13,16 +13,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Endereco {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id_cliente")
-    @JsonIgnore
-    private Cliente cliente;
     private String rua;
-    private String cidade;
-    private String bairro;
-    private String cep;
-    private int numCasa;
 
 }
